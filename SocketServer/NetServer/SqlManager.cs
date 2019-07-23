@@ -24,8 +24,6 @@ namespace SocketServer.NetServer
 
         private MySqlConnection conn = null;
 
-        private MySqlDataReader dr;
-
         public static SqlManager Ins
         {
             get
@@ -41,13 +39,14 @@ namespace SocketServer.NetServer
             String connetStr = "server=127.0.0.1;port=3306;user=root;password=123456; database=calc;";
             conn = new MySqlConnection(connetStr);
 
-            myTimer = new System.Timers.Timer();
-            myTimer.Interval = 1000;
-            myTimer.AutoReset = true;
-            myTimer.Enabled = true;
-            myTimer.Elapsed += new ElapsedEventHandler(DoVoidSqlCmd);
-            
+//            myTimer = new System.Timers.Timer();
+//            myTimer.Interval = 1000;
+//            myTimer.AutoReset = true;
+//            myTimer.Enabled = true;
+//            myTimer.Elapsed += new ElapsedEventHandler(DoVoidSqlCmd);
+
         }
+
 
         private void DoVoidSqlCmd(object sender, ElapsedEventArgs e)
         {
@@ -102,20 +101,37 @@ namespace SocketServer.NetServer
         }
        
 
-        public MySqlDataReader SqlSelect(string cmd)
+        public List<Dictionary<string, object>> SqlSelect(string cmd)
         {
-            conn.Open();
-            MySqlCommand mySqlCmd = new MySqlCommand(cmd, conn);
-            dr = mySqlCmd.ExecuteReader();
-            return dr;
+            MySqlDataReader dr = null;
+            try
+            {
+                conn.Open();
+                MySqlCommand mySqlCmd = new MySqlCommand(cmd, conn);
+                dr = mySqlCmd.ExecuteReader();
+
+                List<Dictionary<string, object>> datas = new List<Dictionary<string, object>>();
+                while (dr.Read())
+                {
+                    Dictionary<string, object> data = new Dictionary<string, object>();
+                    for (int i = 0; i < dr.FieldCount; i++)
+                    {
+                        data.Add(dr.GetName(i), dr[i]);
+                    }
+                    datas.Add(data);
+                }
+                dr.Close();
+                conn.Close();
+                return datas;
+            }
+            catch (Exception ex)
+            {
+                dr.Close();
+                conn.Close();
+                return null;
+            }
         }
 
-        public void CloseMySqlDataReader()
-        {
-            dr.Close();
-            conn.Close();
-            conn.Dispose();
-        }
         public DataTable SqlSelectFunction2(string cmd)
         {
             //建立DataSet对象(相当于建立前台的虚拟数据库)

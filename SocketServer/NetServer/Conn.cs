@@ -152,6 +152,26 @@ namespace SocketServer.NetServer
             }
         }
 
+        public void Send( ushort mainid, ushort subid, string msg)
+        {
+            simpledata.SimpleString simpleStr = new simpledata.SimpleString();
+            simpleStr.simple = msg;
+            byte[] data = NetUtil.ProtobufSerialize(simpleStr);
+            SendAsync(mainid, subid, data);
+        }
+
+        public void Send(ushort mainid, ushort subid, int msg)
+        {
+            simpledata.SimpleInt simpleInt = new simpledata.SimpleInt();
+            simpleInt.simple = msg;
+            byte[] data = NetUtil.ProtobufSerialize(simpleInt);
+            SendAsync(mainid, subid, data);
+        }
+
+        public void Send<T>(ushort mainid, ushort subid, T pStruct) where T : ProtoBuf.IExtensible
+        {
+           SendAsync(mainid, subid, NetUtil.ProtobufSerialize(pStruct));
+        }
 
         public void Close()
         {

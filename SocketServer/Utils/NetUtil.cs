@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 using ProtoBuf;
+using SocketServer.NetServer;
 
 [StructLayoutAttribute(LayoutKind.Sequential,CharSet= CharSet.Unicode,Pack =1)]
 public struct TCP_Buffer
@@ -108,7 +109,7 @@ public class NetUtil
     }
 
 
-    public static byte[] ProtobufSerialize<T>(T pbStruct)
+    public static byte[] ProtobufSerialize<T>(T pbStruct) where T : ProtoBuf.IExtensible
     {
         MemoryStream ms = new MemoryStream();
         Serializer.Serialize<T>(ms, pbStruct);
@@ -120,4 +121,8 @@ public class NetUtil
         MemoryStream ms = new MemoryStream(bytes);
         return Serializer.Deserialize<T>(ms);
     }
+
+    
+
+
 }

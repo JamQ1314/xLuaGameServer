@@ -2,4 +2,5 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll" /&gt;&#xD;
   &lt;Assembly Path="E:\Cources\Calc\Game2DServer\SocketServer\bin\Debug\MySql.Data.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Program Files (x86)\MySQL\MySQL Installer for Windows\MySql.Data.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

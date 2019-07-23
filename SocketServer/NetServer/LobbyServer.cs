@@ -68,6 +68,33 @@ namespace SocketServer.NetServer
             MemoryStream ms = new MemoryStream(buff);
             Account acc = Serializer.Deserialize<Account>(ms);
             LogUtil.LogInfo(string.Format("收到登陆消息,账号：{0}  密码：{1}", acc.acc, acc.pwd));
+
+            if (dicAccouts.ContainsKey(acc.acc))
+            {
+                var tmpAcc = dicAccouts[acc.acc];
+                if (tmpAcc.pwd == acc.pwd)
+                {
+                    client.Send((ushort) MainID.Lobby, (ushort) LobbyID.LoginSuccess, tmpAcc);
+                }
+                else
+                {
+                    client.Send((ushort) MainID.Lobby, (ushort) LobbyID.LoginFaiure, "用户密码错误。");
+                }
+            }
+            else
+            {
+                string cmd = string.Format("select * from accounts where acc = '{0}' ", acc.acc);
+                var sqlDatas = SqlManager.Ins.SqlSelect(cmd);
+                var data = sqlDatas[0];
+                Account sendacc = new Account();
+                sendacc.acc = (string)data["acc"];
+                sendacc.pwd = "";
+                sendacc.nickname = "";
+                sendacc.id = (int)data["id"];
+                sendacc.roomid = (int) data["roomid"];
+                LogUtil.LogInfo(string.Format("id:{0} roomid:{1}", sendacc.id, sendacc.roomid));
+                client.Send((ushort)MainID.Lobby, (ushort)LobbyID.LoginSuccess, sendacc);
+            }
         }
 
         public void DoAccRegister(Conn client, byte[] buff)
@@ -78,20 +105,14 @@ namespace SocketServer.NetServer
 
             if (dicAccouts.ContainsKey(acc.acc))
             {
-                simpledata.SimpleString simpleStr = new simpledata.SimpleString();
-                simpleStr.simple = "账号创建失败：已存在。";
-                byte[] data = NetUtil.ProtobufSerialize(simpleStr);
-                client.SendAsync((ushort)MainID.Lobby, (ushort)LobbyID.RegisterFailure, data);
+                client.Send((ushort)MainID.Lobby, (ushort)LobbyID.RegisterFailure, "账号创建失败：已存在。");
             }
             else
             {
                 string cmd = string.Format("select * from accounts where acc = '{0}' ", acc.acc);
                 if (SqlManager.Ins.SqlMatch(cmd))
                 {
-                    simpledata.SimpleString simpleStr = new simpledata.SimpleString();
-                    simpleStr.simple = "账号创建失败：已存在。";
-                    byte[] data = NetUtil.ProtobufSerialize(simpleStr);
-                    client.SendAsync((ushort)MainID.Lobby, (ushort)LobbyID.RegisterFailure, data);
+                    client.Send((ushort)MainID.Lobby, (ushort)LobbyID.RegisterFailure, "账号创建失败：已存在。");
                 }
                 else
                 {
@@ -151,15 +172,15 @@ namespace SocketServer.NetServer
                 }
                 else
                 {
-                    string cmd = string.Format("select * from user where id = {0} ", vid);
-                    var dr = SqlManager.Ins.SqlSelect(cmd);
-                    dr.Read();
-                    tempUser.id = vid;
-                    tempUser.name = (string)dr["name"];
-                    tempUser.sex = (int)dr["sex"];
-                    tempUser.gold = (int)dr["gold"];
-                    dictUsers.Add(tempUser.id, tempUser);
-                    SqlManager.Ins.CloseMySqlDataReader();
+//                    string cmd = string.Format("select * from user where id = {0} ", vid);
+//                    var dr = SqlManager.Ins.SqlSelect(cmd);
+//                    dr.Read();
+//                    tempUser.id = vid;
+//                    tempUser.name = (string)dr["name"];
+//                    tempUser.sex = (int)dr["sex"];
+//                    tempUser.gold = (int)dr["gold"];
+//                    dictUsers.Add(tempUser.id, tempUser);
+//                    SqlManager.Ins.CloseMySqlDataReader();
                 }
             }
 

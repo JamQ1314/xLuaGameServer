@@ -46,3 +46,14 @@ E:\Cources\Calc\Game2DServer\SocketServer\obj\Debug\SocketServer.csproj.CopyComp
 E:\Cources\Calc\Game2DServer\SocketServer\obj\Debug\SocketServer.exe
 E:\Cources\Calc\Game2DServer\SocketServer\obj\Debug\SocketServer.pdb
 E:\Cources\Calc\Game2DServer\SocketServer\bin\Debug\MySql.Data.dll
+E:\Cources\Calc\xLuaGameServer\SocketServer\bin\Debug\SocketServer.exe.config
+E:\Cources\Calc\xLuaGameServer\SocketServer\bin\Debug\SocketServer.exe
+E:\Cources\Calc\xLuaGameServer\SocketServer\bin\Debug\SocketServer.pdb
+E:\Cources\Calc\xLuaGameServer\SocketServer\bin\Debug\MySql.Data.dll
+E:\Cources\Calc\xLuaGameServer\SocketServer\bin\Debug\protobuf-net.pdb
+E:\Cources\Calc\xLuaGameServer\SocketServer\bin\Debug\protobuf-net.xml
+E:\Cources\Calc\xLuaGameServer\SocketServer\obj\Debug\SocketServer.csprojAssemblyReference.cache
+E:\Cources\Calc\xLuaGameServer\SocketServer\obj\Debug\SocketServer.csproj.CoreCompileInputs.cache
+E:\Cources\Calc\xLuaGameServer\SocketServer\obj\Debug\SocketServer.csproj.CopyComplete
+E:\Cources\Calc\xLuaGameServer\SocketServer\obj\Debug\SocketServer.exe
+E:\Cources\Calc\xLuaGameServer\SocketServer\obj\Debug\SocketServer.pdb
